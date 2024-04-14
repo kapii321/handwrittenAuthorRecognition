@@ -2,8 +2,9 @@
 # files based on descriptions from text files
 from matplotlib import pyplot as plt
 from matplotlib import image as mpimg
-import numpy as np
-import pdb
+import cv2
+from PIL import Image
+
 
 num_of_authors = 8
 
@@ -18,18 +19,23 @@ for author_no in range(num_of_authors):
 
     image_file_name_prev = ""
     for i in range(number_of_lines):
-        row_values = lines[i].split()    
+        row_values = lines[i].split()
+        print(row_values, author_no)
         if row_values[0] != '%':
             number_of_values = len(row_values)
             image_file_name = "author" + str(author_no + 1) + "\\" + row_values[0][1:-1]
             #pdb.set_trace()
             if image_file_name != image_file_name_prev:   
                 image = mpimg.imread(str(image_file_name))
-                plt.title("Author "+str(author_no+1)+", image = "+row_values[0][1:-1])
-                plt.xlabel("X")
-                plt.ylabel("Y")
-                plt.imshow(image)
-                plt.show()
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                #plt.title("Author "+str(author_no+1)+", image = "+row_values[0][1:-1])
+                #plt.xlabel("X")
+                #plt.ylabel("Y")
+                #cv2.imshow("image", image)
+                #cv2.waitKey(0)
+                #plt.imshow(image) odwrotna paleta używać powyższego
+                #plt.show()
+                cv2.imwrite(image_file_name, image)
                 image_file_name_prev = image_file_name
             
     file_desc_ptr.close()
