@@ -5,7 +5,6 @@ from matplotlib import image as mpimg
 import cv2
 from PIL import Image
 
-
 num_of_authors = 8
 
 for author_no in range(num_of_authors):

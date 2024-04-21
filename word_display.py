@@ -46,7 +46,6 @@ def findMaxPhoto():
     return max_dims
 
 
-
 for author_no in range(num_of_authors):
     file_desc_name = "author" + str(author_no + 1) + "/word_places.txt"
     file_desc_ptr = open(file_desc_name, 'r')
