@@ -26,14 +26,13 @@ for author_no in range(num_of_authors):
             #pdb.set_trace()
             if image_file_name != image_file_name_prev:   
                 image = mpimg.imread(str(image_file_name))
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
                 plt.title("Author "+str(author_no+1)+", image = "+row_values[0][1:-1])
                 plt.xlabel("X")
                 plt.ylabel("Y")
-                cv2.imshow("image", image)
-                cv2.waitKey(0)
-                #plt.imshow(image) #odwrotna paleta używać powyższego
-                #plt.show()
+                #cv2.imshow("image", image)
+                plt.imshow(image) #odwrotna paleta używać powyższego
+                plt.show()
                 cv2.imwrite(image_file_name, image)
                 image_file_name_prev = image_file_name
             

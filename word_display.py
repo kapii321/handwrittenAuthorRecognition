@@ -2,11 +2,8 @@
 # files based on descriptions from text files
 from matplotlib import pyplot as plt
 from matplotlib import image as mpimg
-import cv2
 from PIL import Image
-import sys
-import pdb
-import time
+import numpy as np
 
 num_of_authors = 8
 file_nums = [10, 7, 10, 4, 8, 7, 7, 10]
@@ -71,12 +68,12 @@ for author_no in range(num_of_authors):
             word = row_values[1]
             row1, column1, row2, column2 = int(row_values [2]), int(row_values[3]), \
                 int(row_values[4]), int(row_values[5])
+
             subimage = image[row1:row2, column1:column2]
             sizes = findMaxPhoto()
-
             img = Image.open("normBackground.bmp")
-            img2 = Image.fromarray(subimage, 'RGB')
-            img.paste(img2, (20, 0))
+            img2 = Image.fromarray(subimage)
+            img.paste(img2, (2, 20))
             plt.title("Author " + str(author_no + 1) + ", image = " + row_values[0][1:-1] + ", word = " + word)
             plt.xlabel("X")
             plt.ylabel("Y")
