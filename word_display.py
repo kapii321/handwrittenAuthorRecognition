@@ -6,7 +6,7 @@ import os
 
 num_of_authors = 8
 file_nums = [10, 7, 10, 4, 8, 7, 7, 10]
-max_num_of_words_per_author = 5
+max_num_of_words_per_author = 0
 
 
 def findMaxPhoto():
@@ -52,6 +52,7 @@ def divideAndSaveWords():
         number_of_lines = lines.__len__() - 1
         row_values = lines[0].split()
         number_of_values = row_values.__len__()
+        max_num_of_words_per_author = number_of_lines-2
 
         num_of_words = 0
         image_file_name_prev = ""
@@ -75,10 +76,17 @@ def divideAndSaveWords():
                 img = Image.open("normBackground.bmp")
                 img2 = Image.fromarray(subimage)
                 img.paste(img2, (2, 20))
-                filename = f"./Wauthor{str(author_no + 1)}/word{str(num_of_words)}.bmp"
+                if word[0] == '<' or word[-1] == '>' or word[0] == "\"" or word[-1] == "\"":
+                    word = word[1:-2]
+                elif word == "||":
+                    word = "ddW"
+                elif word[-1] == '?':
+                    word = word[:-1]
+
+                filename = f"./Wauthor{str(author_no + 1)}/{word}_{str(num_of_words)}.bmp"
                 os.makedirs(os.path.dirname(filename), exist_ok=True)
                 img.save(filename)
-
+                print(filename)
                 # plt.title("Author " + str(author_no + 1) + ", image = " + row_values[0][1:-1] + ", word = " + word)
                 # plt.xlabel("X")
                 # plt.ylabel("Y")
