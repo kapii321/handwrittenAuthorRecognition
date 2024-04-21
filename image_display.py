@@ -3,7 +3,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import image as mpimg
 import cv2
-from PIL import Image
+
 
 num_of_authors = 8
 
@@ -30,7 +30,6 @@ for author_no in range(num_of_authors):
                 plt.title("Author "+str(author_no+1)+", image = "+row_values[0][1:-1])
                 plt.xlabel("X")
                 plt.ylabel("Y")
-                #cv2.imshow("image", image)
                 plt.imshow(image) #odwrotna paleta używać powyższego
                 plt.show()
                 cv2.imwrite(image_file_name, image)
