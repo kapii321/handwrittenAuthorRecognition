@@ -99,5 +99,4 @@ def divideAndSaveWords():
 
         file_desc_ptr.close()
 
-
 divideAndSaveWords()
