@@ -36,3 +36,4 @@ for author_no in range(num_of_authors):
                 image_file_name_prev = image_file_name
             
     file_desc_ptr.close()
+

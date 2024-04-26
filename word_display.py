@@ -72,7 +72,6 @@ def divideAndSaveWords():
                     int(row_values[4]), int(row_values[5])
 
                 subimage = image[row1:row2, column1:column2]
-                sizes = findMaxPhoto()
                 img = Image.open("normBackground.bmp")
                 img2 = Image.fromarray(subimage)
                 img.paste(img2, (2, 20))
@@ -83,10 +82,10 @@ def divideAndSaveWords():
                 elif word[-1] == '?':
                     word = word[:-1]
 
-                filename = f"./Wauthor{str(author_no + 1)}/{word}_{str(num_of_words)}.bmp"
+                filename = f"./AllWords/Wauthor{str(author_no + 1)}/{str(num_of_words)}.png"
                 os.makedirs(os.path.dirname(filename), exist_ok=True)
                 img.save(filename)
-                print(filename)
+
                 # plt.title("Author " + str(author_no + 1) + ", image = " + row_values[0][1:-1] + ", word = " + word)
                 # plt.xlabel("X")
                 # plt.ylabel("Y")
