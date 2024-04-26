@@ -9,24 +9,35 @@ def activation_layer(activation: str='relu', alpha: float=0.1, inplace: bool = T
     elif activation == 'leaky_relu':
         return nn.LeakyReLU(negative_slope=alpha, inplace=inplace)
 
+
 class ResidualBlock(nn.Module):
-    def __init__(self, in_channels, out_channels,kernel_size =3, stride =1, skip_conv=True, dropout=0.2, activation='leaky_relu', padding=1):
+    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, skip_conv=True, dropout=0.2,
+                 activation='leaky_relu', padding=1):
         super(ResidualBlock, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels, out_channels,kernel_size=kernel_size, stride=stride, padding=padding)
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding=padding)
         self.bn1 = nn.BatchNorm2d(out_channels)
         self.activation1 = activation_layer(activation)
-        self.conv2 = nn.Conv2d(out_channels, out_channels,kernel_size=kernel_size,stride=stride, padding=padding)
+        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=kernel_size, stride=1,
+                               padding=padding)  # Stride is always 1
         self.bn2 = nn.BatchNorm2d(out_channels)
         self.dropout = nn.Dropout(p=dropout)
-        self.shortcut = None
+
+        # Adjusting the shortcut connection to match the dimensions of the main path
         if skip_conv:
             if stride != 1 or in_channels != out_channels:
-                self.shortcut = nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride)
+                self.shortcut = nn.Sequential(
+                    nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride),  # Adjust spatial dimensions
+                    nn.BatchNorm2d(out_channels)
+                )
+            else:
+                self.shortcut = nn.Identity()  # Identity mapping if dimensions match
+        else:
+            self.shortcut = nn.Identity()  # No skip connection
 
         self.activation2 = activation_layer(activation)
 
     def forward(self, x):
-        jump = x
+        jump = self.shortcut(x)  # Apply shortcut connection
 
         out = self.conv1(x)
         out = self.bn1(out)
@@ -35,8 +46,7 @@ class ResidualBlock(nn.Module):
         out = self.conv2(out)
         out = self.bn2(out)
 
-        if self.shortcut is not None:
-            out += self.shortcut(jump)
+        out += jump  # Perform element-wise addition with shortcut connection
 
         out = self.activation2(out)
 
