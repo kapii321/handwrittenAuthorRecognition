@@ -74,7 +74,7 @@ def divideAndSaveWords():
                 subimage = image[row1:row2, column1:column2]
                 img = Image.open("normBackground.bmp")
                 img2 = Image.fromarray(subimage)
-                img.paste(img2, (2, 20))
+                img.paste(img2, (2, 10))
                 if word[0] == '<' or word[-1] == '>' or word[0] == "\"" or word[-1] == "\"":
                     word = word[1:-2]
                 elif word == "||":
@@ -82,7 +82,7 @@ def divideAndSaveWords():
                 elif word[-1] == '?':
                     word = word[:-1]
 
-                filename = f"./AllWords/Wauthor{str(author_no + 1)}/{str(num_of_words)}.png"
+                filename = f"./AllWords/Wauthor{str(author_no + 1)}/{str(num_of_words)}.bmp"
                 os.makedirs(os.path.dirname(filename), exist_ok=True)
                 img.save(filename)
 
