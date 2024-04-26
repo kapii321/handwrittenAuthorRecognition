@@ -27,7 +27,6 @@ class DataPreprocessor(Dataset):
     def __init__(self, features, labels,  transform=None):
         self.features = features
         self.labels = labels
-        #self.num_classes = num_classes
         self.transform = transform
 
     def __getitem__(self, item):
@@ -37,9 +36,6 @@ class DataPreprocessor(Dataset):
             image = self.transform(image)
 
         return image, label
-
-       # target = torch.zeros(self.num_classes)
-        #target[label] = 1
 
 
 
