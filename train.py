@@ -1,3 +1,5 @@
+from multiprocessing import freeze_support
+import matplotlib.pyplot as plt
 import cv2
 import torch
 from torch.utils.data import DataLoader, Dataset
@@ -12,7 +14,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 images = []
 labels = []
-dataPath = r'C:\Users\Kacper\PycharmProjects\aiProjectNew\AllWords'
+dataPath = r'C:\Users\Jakub\PycharmProjects\aiProjectNew\AllWordsMoje'
 subFolder = os.listdir(dataPath)
 for folder in subFolder:
     label = subFolder.index(folder)
@@ -37,8 +39,6 @@ class DataPreprocessor(Dataset):
 
         return image, label
 
-
-
     def __len__(self):
         return len(self.labels)
 
@@ -62,7 +62,7 @@ model = CNN().to(device)
 print(model.train())
 
 learning_rate = 0.001
-epoch = 50
+epoch = 10
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.CrossEntropyLoss()
 
@@ -72,14 +72,11 @@ for i in range(epoch):
         image = image.to(device)
         target = target.to(device)
 
-
         optimizer.zero_grad()
         output = model(image)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
-
-
 
     print(f'Epochs: {i + 1} out of {epoch} || Training Loss: {loss.item()}')
 
@@ -113,3 +110,16 @@ with torch.no_grad():
         total_samples += target.size(0)
     accuracy = total_correct / total_samples
     print(f'Testing Accuracy: {accuracy}')
+
+
+model.eval()
+with torch.no_grad():
+    for image, target in test_loader:
+        image = image.to(device)
+        target = target.to(device)
+
+        output = model(image)
+        _, predicted = torch.max(output, 1)
+        plt.imshow(image, cmap='gray')
+        plt.xlabel(target)
+        plt.show()

@@ -3,9 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-
-
-
 class CNN(nn.Module):
 
     def __init__(self):
@@ -16,7 +13,7 @@ class CNN(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.activation = nn.ReLU()
         self.dropout = nn.Dropout(p=0.5)
-        self.fc1 = nn.Linear(in_features=130944, out_features=512)
+        self.fc1 = nn.Linear(in_features=190464, out_features=512)
         self.fc2 = nn.Linear(in_features=512, out_features=8)
         self.flatten = nn.Flatten()
 
@@ -26,16 +23,11 @@ class CNN(nn.Module):
         x = self.activation(self.conv2(x))
         x = self.maxpool(x)
         x = self.dropout(x)
-
-
+        #print(x.shape)
         x = self.flatten(x)
-
-
         x = self.activation(self.fc1(x))
         x = self.dropout(x)
 
         x = self.fc2(x)
 
         return x
-
-
