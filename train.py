@@ -62,7 +62,7 @@ model = CNN().to(device)
 print(model.train())
 
 learning_rate = 0.001
-epoch = 10
+epoch = 1
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.CrossEntropyLoss()
 
@@ -96,6 +96,7 @@ for i in range(epoch):
         print(f'Validation Accuracy: {accuracy}')
 
 # Testing (after training)
+overall_predictions = []
 model.eval()
 with torch.no_grad():
     total_correct = 0
@@ -103,23 +104,24 @@ with torch.no_grad():
     for image, target in test_loader:
         image = image.to(device)
         target = target.to(device)
-
         output = model(image)
         _, predicted = torch.max(output, 1)
         total_correct += (predicted == target).sum().item()
         total_samples += target.size(0)
+        overall_predictions.append(predicted.cpu().flatten().numpy())
+        #overall_predictions = [item for sublist in overall_predictions for item in sublist]
     accuracy = total_correct / total_samples
     print(f'Testing Accuracy: {accuracy}')
 
+final_predictions = []
+for _ in overall_predictions:
+    for x in _:
+        final_predictions.append(x)
 
-model.eval()
-with torch.no_grad():
-    for image, target in test_loader:
-        image = image.to(device)
-        target = target.to(device)
 
-        output = model(image)
-        _, predicted = torch.max(output, 1)
-        plt.imshow(image, cmap='gray')
-        plt.xlabel(target)
-        plt.show()
+for _ in range(len(test_images)):
+    plt.imshow(test_images[_])
+    plt.xlabel(f"Correct author: {test_labels[_]+1}, Author by model: {final_predictions[_]+1}")
+    plt.show()
+    os.system('pause')
+    plt.close()
