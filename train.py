@@ -60,8 +60,8 @@ train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
+
 model = CNN().to(device)
-print(model.train())
 
 learning_rate = 0.001
 epoch = 20
@@ -97,16 +97,31 @@ for i in range(epoch):
         accuracy = total_correct / total_samples
         print(f'Validation Accuracy: {accuracy}')
 
+
+#Saving the model
+torch.save(model.state_dict(), 'author_recognition_model.pt')
+print('Model has been saved successfully')
+
+
+#Loading the model (comment the training loop and initialization of model above if using this)
+'''
+load_model = CNN()
+load_model.load_state_dict(torch.load('author_recognition_model.pt'))
+load_model = load_model.to(device)
+print('Model has been loaded')
+'''
+
+
 # Testing (after training)
 overall_predictions = []
-model.eval()
+model.eval() #change to load_model if loading
 with torch.no_grad():
     total_correct = 0
     total_samples = 0
     for image, target in test_loader:
         image = image.to(device)
         target = target.to(device)
-        output = model(image)
+        output = model(image) #change to load_model if loading
         _, predicted = torch.max(output, 1)
         total_correct += (predicted == target).sum().item()
         total_samples += target.size(0)
