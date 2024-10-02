@@ -5,11 +5,11 @@
 - First divide page scans into separate words and save them into a folder, one folder for each author(AllWords/Wauthor#)
 - Next, normalize images to the same size by pasting them onto a white rectangle normBackground.bmp
 
-<img width="438" alt="PageOfWords" src="[https://github.com/kapii321/aiProjectNew/tree/master/docImg/1.bmp](https://github.com/kapii321/aiProjectNew/blob/d3ab02fb0fa4e498f54001aef267a4886c809546/docImg/1.bmp)">
+<img width="438" alt="PageOfWords" src="https://github.com/kapii321/aiProjectNew/blob/a698a87afb4bae00a23197675cedf2216da8c1ce/docImg/PanTadeusz_1.bmp">
 
-<img width="438" alt="SingleWord" src="https://github.com/kapii321/aiProjectNew/tree/master/docImg/PanTadeusz_1.bmp">
+<img width="438" alt="SingleWord" src="https://github.com/kapii321/aiProjectNew/blob/a698a87afb4bae00a23197675cedf2216da8c1ce/docImg/1.bmp">
 
 - Next, if needed rescale the images to smaller size so training requires less computing power
 - Next, train and test the model
 - Preview results
-<img width="438" alt="Result" src="https://github.com/kapii321/aiProjectNew/tree/master/docImg/result.png">
+<img width="438" alt="Result" src="https://github.com/kapii321/aiProjectNew/blob/a698a87afb4bae00a23197675cedf2216da8c1ce/docImg/result.png">
